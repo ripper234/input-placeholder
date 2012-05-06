@@ -11,3 +11,12 @@ Key features:
 2. No messy CSS tricks required.
 
 See [this fiddle](http://jsfiddle.net/ripper234/zSxjw/2/).
+
+Cons:
+
+1. Immature
+2. Doesn't use the placeholder attribute/syntax, but rather uses the value attribute.
+
+Usage:
+
+<input name='email' value='Email Address'>
