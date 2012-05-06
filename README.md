@@ -16,6 +16,9 @@ See [this fiddle](http://jsfiddle.net/ripper234/zSxjw/2/).
 
 1. Immature
 2. Doesn't use the placeholder attribute/syntax, but rather uses the value attribute.
+3. Two known bugs:
+3. 1. In IE, selecting the default text will be weird
+3. 2. In all browsers except Firefox, tabbing into the default text will cause a flickering effect.
 
 **Usage**:
 
