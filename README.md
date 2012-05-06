@@ -19,4 +19,4 @@ Cons:
 
 Usage:
 
-<input name='email' value='Email Address'>
+&lt;<input name='email' value='Email Address'&gt;
