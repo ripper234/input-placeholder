@@ -20,52 +20,54 @@
     $.fn.setCaretToPos = function(pos) {
         this.selectRange(pos, pos);
     };
-})(jQuery);
 
-function removeDefaultText(elem) {
-    if (elem.value == elem.defaultValue) {
-        elem.value = '';
-        $(elem).addClass("not-dim");
-    }
-}
-$(document).ready(function(){
-    function fixDefaultText(element) {
-        if (element.value == '') {
-            element.value = element.defaultValue;
-            $(element).removeClass("not-dim");
-        }
-        if (element.value == element.defaultValue) {
-            $(element).setCaretToPos(0);
+    function removeDefaultText(elem) {
+        if (elem.value == elem.defaultValue) {
+            elem.value = '';
+            $(elem).addClass("not-dim");
         }
     }
 
-    function isPrintableKey(event) {
-        return event.which !== 0 && event.charCode !== 0;
-    }
-    $("input.reactive").keypress(function(event){
-        if (!isPrintableKey(event) || event.charCode == 13 /* Enter */) {
-            // Don't change the filled content on movement keys, to prevent flickering
-            return;
+    $(document).ready(function(){
+        function fixDefaultText(element) {
+            if (element.value == '') {
+                element.value = element.defaultValue;
+                $(element).removeClass("not-dim");
+            }
+            if (element.value == element.defaultValue) {
+                $(element).setCaretToPos(0);
+            }
         }
-        removeDefaultText(this);
-    }).keyup(function() {
-        fixDefaultText(this);
-        return false;
-    }).mousedown(function(){
-        // Chrome: prevents selecting the default text
-        if (this.value != this.defaultValue) {
-            return true;
+
+        function isPrintableKey(event) {
+            return event.which !== 0 && event.charCode !== 0;
         }
-        fixDefaultText(this);
-        return false;
-    }).click(function(){
-        // mousedown doesn't work in IE
-        if (this.value != this.defaultValue) {
-            return true;
-        }
-        fixDefaultText(this);
-        return false;
-    }).bind('paste', function(){
-        removeDefaultText(this);
+        $("input.reactive").keypress(function(event){
+            if (!isPrintableKey(event) || event.charCode == 13 /* Enter */) {
+                // Don't change the filled content on movement keys, to prevent flickering
+                return;
+            }
+            removeDefaultText(this);
+        }).keyup(function() {
+            fixDefaultText(this);
+            return false;
+        }).mousedown(function(){
+            // Chrome: prevents selecting the default text
+            if (this.value != this.defaultValue) {
+                return true;
+            }
+            fixDefaultText(this);
+            return false;
+        }).click(function(){
+            // mousedown doesn't work in IE
+            if (this.value != this.defaultValue) {
+                return true;
+            }
+            fixDefaultText(this);
+            return false;
+        }).bind('paste', function(){
+            removeDefaultText(this);
+        });
     });
-});
+
+})(jQuery);
