@@ -1,27 +1,33 @@
-// Pre-requisites
-$.fn.selectRange = function(start, end) {
-	// http://stackoverflow.com/a/841121/11236
-	return this.each(function() {
-		if (this.setSelectionRange) {
-			this.focus();
-			this.setSelectionRange(start, end);
-		} else if (this.createTextRange) {
-			var range = this.createTextRange();
-			range.collapse(true);
-			range.moveEnd('character', end);
-			range.moveStart('character', start);
-			range.select();
-		}
-	});
-};
-$.fn.setCaretToPos = function(pos) {
-	this.selectRange(pos, pos);
-}
-
-
-
 // Reactive input fields
 // See also http://www.quora.com/JavaScript/Which-plugin-to-use-for-HTML5-placeholder-that-retains-the-label-on-focus
+
+(function(){
+    $.fn.selectRange = function(start, end) {
+        // http://stackoverflow.com/a/841121/11236
+        return this.each(function() {
+            if (this.setSelectionRange) {
+                this.focus();
+                this.setSelectionRange(start, end);
+            } else if (this.createTextRange) {
+                var range = this.createTextRange();
+                range.collapse(true);
+                range.moveEnd('character', end);
+                range.moveStart('character', start);
+                range.select();
+            }
+        });
+    };
+    $.fn.setCaretToPos = function(pos) {
+        this.selectRange(pos, pos);
+    };
+})(jQuery);
+
+function removeDefaultText(elem) {
+    if (elem.value == elem.defaultValue) {
+        elem.value = '';
+        $(elem).addClass("not-dim");
+    }
+}
 $(document).ready(function(){
     function fixDefaultText(element) {
         if (element.value == '') {
@@ -41,10 +47,7 @@ $(document).ready(function(){
             // Don't change the filled content on movement keys, to prevent flickering
             return;
         }
-        if (this.value == this.defaultValue) {
-            this.value = '';
-            $(this).addClass("not-dim") ;
-        }
+        removeDefaultText(this);
     }).keyup(function() {
         fixDefaultText(this);
         return false;
@@ -62,5 +65,7 @@ $(document).ready(function(){
         }
         fixDefaultText(this);
         return false;
+    }).bind('paste', function(){
+        removeDefaultText(this);
     });
 });
